@@ -7,29 +7,29 @@ import Header from './components/header/Header';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { useState, useEffect } from 'react';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/userAction';
+import { connect } from 'react-redux';
 
-function App() {
-	const [currentUser, setCurrentUser] = useState(null);
+function App(state) {
+	console.log(state);
 	useEffect(() => {
-		console.log('im going to mount');
 		let unsubscribeFromAuth = null;
 		unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-			// setCurrentUser(user);
-			// console.log(user._delegate.uid);
 			if (userAuth) {
 				const userRef = await createUserProfileDocument(userAuth);
-				userRef.onSnapshot(snapshot => {
-					setCurrentUser({ id: snapshot.id, ...snapshot.data() });
-				});
+				userRef.onSnapshot(snapshot =>
+					state.setCurrentUser({ id: snapshot.id, ...snapshot.data() })
+				);
+			} else {
+				state.setCurrentUser(userAuth);
 			}
-			setCurrentUser(userAuth);
 		});
 		return () => unsubscribeFromAuth();
 	}, []);
 
 	return (
 		<div className="App">
-			<Header currentUser={currentUser} />
+			<Header />
 			<Routes>
 				<Route exact path="/" element={<HomePage />} />
 				<Route exact path="/shop" element={<Shop />} />
@@ -39,4 +39,8 @@ function App() {
 	);
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+	setCurrentUser: user => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
