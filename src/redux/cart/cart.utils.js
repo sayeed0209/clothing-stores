@@ -4,13 +4,13 @@ export const addToCart = (cartItems, cartItemToAdd) => {
 	if (findExistingItem) {
 		return cartItems.map(item => {
 			if (item.id === cartItemToAdd.id) {
-				let count = item.count + 1;
-				return { ...item, count: count };
+				let quantity = item.quantity + 1;
+				return { ...item, quantity: quantity };
 			} else {
 				return item;
 			}
 		});
 	} else {
-		return [...cartItems, { ...cartItemToAdd, count: 1 }];
+		return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 	}
 };
