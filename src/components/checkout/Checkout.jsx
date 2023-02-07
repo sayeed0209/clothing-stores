@@ -7,7 +7,9 @@ import {
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import CheckoutItem from '../checkout-items/CheckoutItem';
-const Checkout = ({ cartItems, cartTotal }) => {
+import CustomButton from '../custom-button/CustomButton';
+import { clearAllCartAction } from '../../redux/cart/cartAction';
+const Checkout = ({ cartItems, cartTotal, clearALlItems }) => {
 	return (
 		<div className="checkout-page">
 			<div className="checkout-header">
@@ -33,6 +35,9 @@ const Checkout = ({ cartItems, cartTotal }) => {
 			<div className="total">
 				<span>Total: €{cartTotal}</span>
 			</div>
+			<CustomButton clearAll onClick={() => clearALlItems()}>
+				CLEAR ALL
+			</CustomButton>
 		</div>
 	);
 };
@@ -40,5 +45,7 @@ const mapStateToProps = createStructuredSelector({
 	cartItems: selectCartItems,
 	cartTotal: selectCartTotal,
 });
-
-export default connect(mapStateToProps)(Checkout);
+const mapDispatchToProps = dispatch => {
+	return { clearALlItems: () => dispatch(clearAllCartAction()) };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
