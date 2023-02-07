@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/userAction';
 import { connect } from 'react-redux';
+import Checkout from './components/checkout/Checkout';
 
 function App(state) {
 	useEffect(() => {
@@ -42,6 +43,7 @@ function App(state) {
 						)
 					}
 				/>
+				<Route path="/checkout" element={<Checkout />} />
 			</Routes>
 		</div>
 	);
