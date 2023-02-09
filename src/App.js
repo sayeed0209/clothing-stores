@@ -9,6 +9,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/userAction';
 import { connect } from 'react-redux';
 import Checkout from './components/checkout/Checkout';
+import CollectionPage from './pages/collection/Collection.component';
 
 function App(state) {
 	useEffect(() => {
@@ -31,7 +32,10 @@ function App(state) {
 			<Header />
 			<Routes>
 				<Route exact path="/" element={<HomePage />} />
-				<Route exact path="/shop" element={<Shop />} />
+				<Route path="shop">
+					<Route index element={<Shop />} />
+					<Route path=":collectionID" element={<CollectionPage />} />
+				</Route>
 				<Route
 					exact
 					path="/signin"

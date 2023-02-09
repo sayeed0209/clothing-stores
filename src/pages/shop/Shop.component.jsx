@@ -1,13 +1,15 @@
 import React from 'react';
-import { SHOP_DATA } from './shop.data';
-import PreviewCollection from '../../components/preview-collection/PreviewCollection';
+import CollectionOverview from '../../components/collection-overview/CollectionOverview';
+import { Outlet } from 'react-router-dom';
+
 const Shop = () => {
 	return (
-		<div className="shop-page">
-			{SHOP_DATA.map(({ id, ...otherCollectionProps }) => (
-				<PreviewCollection key={id} {...otherCollectionProps} />
-			))}
-		</div>
+		<>
+			<div className="shop-page">
+				<CollectionOverview />
+				<Outlet />
+			</div>
+		</>
 	);
 };
 
